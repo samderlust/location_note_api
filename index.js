@@ -55,9 +55,22 @@ app.get('/api/location/:id', async (req, res, next) => {
     else {
       next({
         status: 404,
-        message: 'The place  that you are looking for is not available'
+        message: 'The place that you are looking for is not available'
       });
     }
+  } catch (error) {
+    next({
+      status: 400,
+      message: err
+    });
+  }
+});
+
+app.delete('/api/location/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const location = await locationModel.delete(id);
+    res.json({ message: 'deleted' });
   } catch (error) {
     next({
       status: 400,
